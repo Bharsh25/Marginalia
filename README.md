@@ -4,6 +4,9 @@
 
 Marginalia is a Retrieval-Augmented Generation (RAG) system built over fourteen foundational AI papers — Attention Is All You Need, BERT, RAG, LoRA, RLHF, and more. Instead of a generic chat window, it's built as a custom "reading room" interface: browse papers on a shelf, ask questions in a request slip, and get answers backed by citation "tickets" showing exactly which paper and page the answer came from.
 
+## 📸 Screenshots
+<img width="1720" height="913" alt="Screenshot 2026-09-01 234743" src="https://github.com/user-attachments/assets/d4d0bf3e-83ce-4acc-9a1b-cf167a961605" />
+
 ## ✨ Features
 
 - **Custom-built interface** — FastAPI backend + plain HTML/CSS/JS frontend, no Streamlit or React boilerplate
@@ -94,9 +97,6 @@ Open **http://localhost:8000**.
 - **PDF parsing:** PyMuPDF + Tesseract OCR fallback
 - **Frontend:** vanilla HTML, CSS, JavaScript (no build step)
 
-## 📸 Screenshots
-
-![Marginalia home screen — shelf, request slip, and example questions](./screenshots/home.png)
 
 ## 📄 License
 
