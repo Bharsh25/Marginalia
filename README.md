@@ -104,4 +104,4 @@ This project is for educational/portfolio purposes. The indexed papers remain th
 
 ## 🙋 Author
 
-Built by Harsh — B.E. student in Artificial Intelligence & Data Science, Datta Meghe College of Engineering.
+Built by Harsh Bhendarkar — B.E. student in Artificial Intelligence & Data Science, Datta Meghe College of Engineering.
