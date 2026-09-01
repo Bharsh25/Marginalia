@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marginalia — An Archive of the Papers That Built Modern AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <aside class="shelf">
+    <div class="shelf-header">
+      <span class="eyebrow">Reading Room</span>
+      <h2>The Shelf</h2>
+      <p class="shelf-note">Select a title to focus your request on that paper alone.</p>
+    </div>
+    <div id="paper-list" class="paper-list" aria-live="polite">
+      <div class="paper-item skeleton">Loading catalog…</div>
+    </div>
+    <button id="clear-filter" class="clear-filter" hidden type="button">
+      Clear focus — search all papers
+    </button>
+  </aside>
+
+  <main class="reading-room">
+    <header class="hero">
+      <span class="eyebrow">Marginalia</span>
+      <h1>Ask the papers that built modern&nbsp;AI.</h1>
+      <p class="hero-sub">
+        An archive of fourteen foundational papers — Attention, BERT, RAG, LoRA, RLHF and more —
+        indexed and ready to answer directly, with page citations.
+      </p>
+    </header>
+
+    <form id="request-form" class="request-slip">
+      <div class="slip-row">
+        <label for="query">Query</label>
+        <span id="focus-tag" class="focus-tag" hidden></span>
+      </div>
+      <textarea
+        id="query"
+        placeholder="e.g. How does encoder-decoder attention differ from self-attention?"
+        rows="3"
+        required
+      ></textarea>
+      <div class="slip-footer">
+        <span class="slip-hint">⌘ / Ctrl + Enter to submit</span>
+        <button type="submit" id="submit-btn">Submit request</button>
+      </div>
+    </form>
+
+    <section id="try-asking" class="try-asking" hidden>
+      <span class="eyebrow">Try asking</span>
+      <div id="chip-grid" class="chip-grid"></div>
+    </section>
+
+    <section id="feed" class="feed" aria-live="polite"></section>
+  </main>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>

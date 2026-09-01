@@ -1,0 +1,1007 @@
+:root {
+    --ink: #0e1116;
+    --panel: #171b23;
+    --panel-raised: #1d222c;
+    --paper: #e8e6de;
+    --muted: #8b93a1;
+    --verdigris: #4c8577;
+    --verdigris-soft: #315149;
+    --brass: #c9a227;
+    --line: #2a2f3a;
+    --danger: #c1554b;
+
+    --font-display: "Fraunces", serif;
+    --font-body: "Public Sans", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+}
+
+
+/*  
+  GLOBAL
+  * */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: dark;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    line-height: 1.55;
+}
+
+button,
+textarea,
+input {
+    font-family: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+}
+
+.eyebrow {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.6rem;
+}
+
+
+/**
+    APP SHELL
+    Desktop:
+    - Sidebar stays fixed
+    - Main area scrolls independently
+  * */
+
+.app {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/**
+   SIDEBAR / SHELF
+  * */
+
+.shelf {
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+
+    padding: 2rem 1.4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.2rem;
+
+    height: 100vh;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.shelf-header {
+    flex-shrink: 0;
+}
+
+.shelf-header h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+
+    margin: 0 0 0.4rem 0;
+}
+
+.shelf-note {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+
+/**
+   PAPER LIST
+  * */
+
+.paper-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.4rem;
+
+    /*
+     * Critical for flex scrolling.
+     * Allows this element to shrink instead of
+     * forcing the sidebar to become taller than the viewport.
+     */
+    flex: 1;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.paper-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.paper-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.paper-list::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+
+.paper-list::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+
+/**
+   PAPER ITEM
+  * */
+
+.paper-item {
+    width: 100%;
+
+    text-align: left;
+
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    padding: 0.6rem 0.7rem;
+
+    color: var(--paper);
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    font-size: 0.88rem;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.paper-item:hover {
+    background: var(--panel-raised);
+    border-color: var(--line);
+}
+
+.paper-item.active {
+    background: var(--verdigris-soft);
+    border-color: var(--verdigris);
+}
+
+.paper-item .count {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+
+    flex-shrink: 0;
+}
+
+.paper-item.skeleton {
+    color: var(--muted);
+    cursor: default;
+}
+
+
+/**
+  CLEAR FILTER
+  * */
+
+.clear-filter {
+    flex-shrink: 0;
+
+    width: 100%;
+
+    background: none;
+
+    border: 1px dashed var(--line);
+    color: var(--muted);
+
+    border-radius: 6px;
+
+    padding: 0.55rem 0.7rem;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.clear-filter:hover {
+    border-color: var(--brass);
+    color: var(--brass);
+}
+
+
+/**
+  MAIN READING ROOM
+  * */
+
+.reading-room {
+    /*
+     * IMPORTANT:
+     * This is the only main page scroll area on desktop.
+     */
+
+    height: 100vh;
+    min-width: 0;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 3rem 3rem 4rem;
+
+    width: 100%;
+}
+
+
+/*
+ * Keep the actual content narrow while allowing
+ * the reading-room itself to occupy the full viewport.
+ */
+
+.reading-room > * {
+    width: min(100%, 780px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Main scrollbar */
+
+.reading-room {
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.reading-room::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reading-room::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.reading-room::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+
+.reading-room::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+
+/**
+  HERO
+  * */
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+
+    line-height: 1.15;
+
+    margin: 0 0 0.9rem 0;
+}
+
+.hero-sub {
+    color: var(--muted);
+
+    max-width: 54ch;
+
+    margin: 0 0 2.4rem 0;
+}
+
+
+/**
+  REQUEST SLIP
+  * */
+
+.request-slip {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+    border-radius: 10px;
+
+    padding: 1.2rem 1.3rem 1rem;
+
+    margin-bottom: 2rem;
+}
+
+.slip-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 0.5rem;
+}
+
+.slip-row label {
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+.focus-tag {
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    color: var(--verdigris);
+
+    border: 1px solid var(--verdigris);
+
+    border-radius: 999px;
+
+    padding: 0.15rem 0.6rem;
+
+    white-space: nowrap;
+}
+
+
+/**
+  QUERY INPUT
+  * */
+
+#query {
+    width: 100%;
+
+    background: transparent;
+
+    border: none;
+
+    color: var(--paper);
+
+    font-family: var(--font-body);
+
+    font-size: 1.05rem;
+
+    resize: vertical;
+
+    min-height: 4.5rem;
+
+    padding: 0;
+
+    outline: none;
+}
+
+#query::placeholder {
+    color: var(--muted);
+}
+
+
+/**
+  SLIP FOOTER
+  * */
+
+.slip-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-top: 0.6rem;
+
+    padding-top: 0.6rem;
+
+    border-top: 1px solid var(--line);
+}
+
+.slip-hint {
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    color: var(--muted);
+}
+
+
+/**
+  SUBMIT BUTTON
+  * */
+
+#submit-btn {
+    background: var(--brass);
+
+    color: #14120a;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 0.6rem 1.1rem;
+
+    font-weight: 600;
+
+    font-size: 0.88rem;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.1s ease,
+        background 0.15s ease;
+}
+
+#submit-btn:hover {
+    background: #ddb43a;
+}
+
+#submit-btn:active {
+    transform: translateY(1px);
+}
+
+#submit-btn:disabled {
+    background: var(--muted);
+
+    cursor: progress;
+}
+
+
+/**
+  TRY ASKING
+  * */
+
+.try-asking {
+    margin-top: 0.6rem;
+    margin-bottom: 2.4rem;
+}
+
+.try-asking .eyebrow {
+    margin-bottom: 0.7rem;
+}
+
+.chip-grid {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 0.5rem;
+}
+
+.chip {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+
+    color: var(--paper);
+
+    border-radius: 999px;
+
+    padding: 0.5rem 1rem;
+
+    font-size: 0.82rem;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        background 0.15s ease;
+}
+
+.chip:hover {
+    border-color: var(--brass);
+
+    color: var(--brass);
+
+    background: var(--panel-raised);
+}
+
+
+/**
+  FEED
+  * */
+
+.feed {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2.2rem;
+}
+
+.entry {
+    animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.entry-request {
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    color: var(--brass);
+
+    margin-bottom: 0.5rem;
+}
+
+.entry-query {
+    font-family: var(--font-display);
+
+    font-size: 1.15rem;
+
+    font-weight: 600;
+
+    margin: 0 0 0.9rem 0;
+}
+
+.entry-answer {
+    color: var(--paper);
+}
+
+.entry-answer p {
+    margin: 0 0 0.9rem 0;
+}
+
+.entry-answer ul {
+    margin: 0 0 0.9rem 0;
+
+    padding-left: 1.2rem;
+}
+
+.entry-answer li {
+    margin-bottom: 0.4rem;
+}
+
+.entry-answer strong {
+    color: var(--brass);
+}
+
+.entry-loading {
+    color: var(--muted);
+
+    font-style: italic;
+}
+
+.entry-error {
+    color: var(--danger);
+}
+
+
+/**
+  CITATION TICKETS
+  * */
+
+.tickets {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 0.6rem;
+
+    margin-top: 1rem;
+}
+
+.ticket {
+    position: relative;
+
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    color: var(--verdigris);
+
+    background: var(--panel);
+
+    border: 1px solid var(--verdigris);
+
+    border-radius: 4px;
+
+    padding: 0.4rem 0.7rem 0.4rem 1rem;
+
+    white-space: nowrap;
+}
+
+
+/* Punch-hole notch */
+
+.ticket::before {
+    content: "";
+
+    position: absolute;
+
+    left: -1px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 8px;
+    height: 8px;
+
+    background: var(--ink);
+
+    border: 1px solid var(--verdigris);
+
+    border-radius: 50%;
+}
+
+
+/**
+  TABLET
+  * */
+
+@media (max-width: 1100px) {
+
+    .app {
+        grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .reading-room {
+        padding: 2.5rem 2rem 3.5rem;
+    }
+
+    .shelf {
+        padding: 1.5rem 1rem;
+    }
+}
+
+
+/**
+  MOBILE
+  * */
+
+@media (max-width: 860px) {
+
+    /*
+     * IMPORTANT:
+     * Remove the desktop nested-scroll architecture.
+     *
+     * On mobile the entire document should scroll normally.
+     */
+
+    html,
+    body {
+        height: auto;
+
+        overflow-x: hidden;
+    }
+
+    .app {
+        display: flex;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: 100vh;
+
+        overflow: visible;
+    }
+
+
+    /* *
+      Mobile shelf
+       * */
+
+    .shelf {
+        width: 100%;
+
+        height: auto;
+
+        min-height: 0;
+
+        padding: 1.25rem 1rem;
+
+        border-right: none;
+
+        border-bottom: 1px solid var(--line);
+
+        overflow: visible;
+
+        gap: 1rem;
+    }
+
+
+    .shelf-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .shelf-note {
+        font-size: 0.8rem;
+    }
+
+
+    /*
+     * Papers become horizontal cards/chips.
+     * No second vertical scrollbar on mobile.
+     */
+
+    .paper-list {
+        display: flex;
+
+        flex-direction: row;
+
+        flex-wrap: nowrap;
+
+        gap: 0.5rem;
+
+        flex: none;
+
+        min-height: 0;
+
+        max-height: none;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        padding-bottom: 4px;
+
+        scrollbar-width: thin;
+    }
+
+
+    .paper-item {
+        width: auto;
+
+        min-width: max-content;
+
+        flex-shrink: 0;
+    }
+
+
+    .clear-filter {
+        width: 100%;
+    }
+
+
+    /* *
+    Mobile reading room
+       * */
+
+    .reading-room {
+        width: 100%;
+
+        height: auto;
+
+        min-height: 0;
+
+        overflow: visible;
+
+        padding: 2rem 1.2rem 3rem;
+
+        margin: 0;
+    }
+
+
+    .reading-room > * {
+        width: 100%;
+
+        max-width: none;
+    }
+
+
+    /*Hero */
+
+    .hero h1 {
+        font-size: clamp(1.8rem, 8vw, 2.3rem);
+    }
+
+    .hero-sub {
+        font-size: 0.92rem;
+
+        margin-bottom: 1.8rem;
+    }
+
+
+    /*Request slip */
+
+    .request-slip {
+        padding: 1rem;
+
+        margin-bottom: 1.6rem;
+    }
+
+
+    .slip-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.5rem;
+    }
+
+
+    #query {
+        font-size: 1rem;
+
+        min-height: 5rem;
+    }
+
+
+    .slip-footer {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.8rem;
+    }
+
+
+    .slip-hint {
+        line-height: 1.4;
+    }
+
+
+    #submit-btn {
+        width: 100%;
+
+        padding: 0.7rem 1rem;
+    }
+
+
+    /*Example questions */
+
+    .try-asking {
+        margin-bottom: 2rem;
+    }
+
+    .chip-grid {
+        flex-direction: column;
+    }
+
+    .chip {
+        width: 100%;
+
+        border-radius: 8px;
+
+        padding: 0.7rem 0.9rem;
+    }
+
+
+    /*Feed */
+
+    .feed {
+        gap: 1.8rem;
+    }
+
+    .entry-query {
+        font-size: 1.05rem;
+    }
+
+    .entry-answer {
+        font-size: 0.94rem;
+    }
+
+
+    /* Tickets */
+
+    .tickets {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .ticket {
+        width: 100%;
+
+        white-space: normal;
+
+        overflow-wrap: anywhere;
+    }
+}
+
+
+/*SMALL PHONES*/
+
+@media (max-width: 480px) {
+
+    .shelf {
+        padding: 1rem 0.8rem;
+    }
+
+    .reading-room {
+        padding: 1.5rem 0.9rem 2.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .request-slip {
+        border-radius: 8px;
+    }
+
+    .entry-answer {
+        font-size: 0.92rem;
+    }
+}
+
+
+/* REDUCED MOTION*/
+
+@media (prefers-reduced-motion: reduce) {
+
+    .entry {
+        animation: none;
+    }
+
+    .paper-item,
+    .chip,
+    #submit-btn,
+    .clear-filter {
+        transition: none;
+    }
+}
