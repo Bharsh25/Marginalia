@@ -4,6 +4,8 @@
 
 Marginalia is a Retrieval-Augmented Generation (RAG) system built over fourteen foundational AI papers — Attention Is All You Need, BERT, RAG, LoRA, RLHF, and more. Instead of a generic chat window, it's built as a custom "reading room" interface: browse papers on a shelf, ask questions in a request slip, and get answers backed by citation "tickets" showing exactly which paper and page the answer came from.
 
+**Live app:** https://marginalia-2-vtk8.onrender.com/
+
 ## 📸 Screenshots
 <img width="1720" height="913" alt="Screenshot 2026-09-01 234743" src="https://github.com/user-attachments/assets/d4d0bf3e-83ce-4acc-9a1b-cf167a961605" />
 
