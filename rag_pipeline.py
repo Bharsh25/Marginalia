@@ -115,15 +115,20 @@ def strip_latex(text):
     return text
 
 
+def clean_filename(path):
+    """Handles both Windows (\\) and Unix (/) path separators safely."""
+    return os.path.basename(path.replace("\\", "/"))
+
+
 def list_papers(vector_store):
     """Returns each indexed paper's filename and chunk count, for the sidebar shelf."""
     data = vector_store.collection.get(include=["metadatas"])
     sources_and_paths = {}
     for m in data["metadatas"]:
         path = m.get("source", "unknown")
-        sources_and_paths[os.path.basename(path)] = path
+        sources_and_paths[clean_filename(path)] = path
 
-    counts = Counter(os.path.basename(m.get("source", "unknown")) for m in data["metadatas"])
+    counts = Counter(clean_filename(m.get("source", "unknown")) for m in data["metadatas"])
     return [
         {"name": name, "path": sources_and_paths[name], "chunks": count}
         for name, count in sorted(counts.items())
@@ -140,7 +145,7 @@ def generate_output(query, retriever, llm, top_k=6, score_threshold=0.3, source=
         }
 
     context = "\n\n".join(
-        f"[Source: {os.path.basename(doc['metadata'].get('source', 'unknown'))}, "
+        f"[Source: {clean_filename(doc['metadata'].get('source', 'unknown'))}, "
         f"page {doc['metadata'].get('page', '?')}]\n{doc['document']}"
         for doc in results
     )
@@ -165,7 +170,7 @@ Query: {query}"""
     seen = set()
     sources_out = []
     for doc in results:
-        file = os.path.basename(doc["metadata"].get("source", "unknown"))
+        file = clean_filename(doc["metadata"].get("source", "unknown"))
         page = doc["metadata"].get("page", "?")
         key = (file, page)
         if key not in seen:
@@ -173,7 +178,6 @@ Query: {query}"""
             sources_out.append({"file": file, "page": page})
 
     return {"answer": answer, "sources": sources_out}
-
 
 def build_pipeline(persist_directory="data/vector_store", collection_name="pdf_documents"):
     """Call this once at API startup. Assumes you've already run ingestion
