@@ -147,7 +147,7 @@ function toggleFocus(paper) {
   requestCount = 0;             
 }
 
-cclearFilterBtn.addEventListener("click", () => {
+clearFilterBtn.addEventListener("click", () => {
   activeSource = null;
   paperListEl.querySelectorAll(".paper-item").forEach((el) => el.classList.remove("active"));
   focusTagEl.hidden = true;
