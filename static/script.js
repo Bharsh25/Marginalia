@@ -133,6 +133,7 @@ function toggleFocus(paper) {
     focusTagEl.hidden = true;
     clearFilterBtn.hidden = true;
     hideChips();
+    feedEl.innerHTML = "";      // 
     return;
   }
 
@@ -142,14 +143,18 @@ function toggleFocus(paper) {
   focusTagEl.textContent = `Focused: ${prettifyName(paper.name)}`;
   clearFilterBtn.hidden = false;
   renderChipsForPaper(paper);
+  feedEl.innerHTML = "";        
+  requestCount = 0;             
 }
 
-clearFilterBtn.addEventListener("click", () => {
+cclearFilterBtn.addEventListener("click", () => {
   activeSource = null;
   paperListEl.querySelectorAll(".paper-item").forEach((el) => el.classList.remove("active"));
   focusTagEl.hidden = true;
   clearFilterBtn.hidden = true;
   hideChips();
+  feedEl.innerHTML = "";        
+  requestCount = 0;             
 });
 
 // ---------- Submit a request ----------
