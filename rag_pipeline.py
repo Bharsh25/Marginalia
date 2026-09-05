@@ -4,18 +4,21 @@ import hashlib
 from collections import Counter
 
 import chromadb
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from langchain_groq import ChatGroq
 
 
 class EmbeddingManager:
-    def __init__(self, model_name="all-MiniLM-L6-v2"):
-        print("Loading embedding model....", model_name)
-        self.model = SentenceTransformer(model_name)
+    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2"):
+        print("Loading fastembed model....", model_name)
+        self.model = TextEmbedding(model_name=model_name)
 
     def generate_embeddings(self, text):
-        return self.model.encode(text, show_progress_bar=False)
-
+        # text can be a single string or a list of strings
+        if isinstance(text, str):
+            text = [text]
+        # fastembed returns a generator of numpy arrays — convert to plain lists
+        return [emb.tolist() for emb in self.model.embed(text)]
 
 class VectorStoreManager:
     """Same store your notebook already built and ingested into.
@@ -57,7 +60,7 @@ class VectorStoreManager:
             all_metadata.append(metadata)
 
             documents_content.append(doc.page_content)
-            embeddings_list.append(embedding.tolist())
+            embeddings_list.append(embedding)
 
         self.collection.upsert(
             ids=ids, metadatas=all_metadata, documents=documents_content, embeddings=embeddings_list
@@ -76,7 +79,7 @@ class RAGRetriever:
         where = {"source": source} if source else None
 
         results = self.vector_store.collection.query(
-            query_embeddings=[query_embedding.tolist()],
+            query_embeddings=[query_embedding],
             n_results=top_k,
             where=where,
         )
